@@ -3,18 +3,16 @@ exports.vendorStockCsv=(req,res)=>{
 .fromFile(req.file.path)  
 .then((jsonObj)=>{   
 var uploadBy = {email:req.body.email,role:req.body.role};
- var csvValue = jsonObj.map(o => Object.assign({}, uploadBy, o));
+ // var csvValue = jsonObj.map(o => Object.assign({}, uploadBy, o));
  var csvValue1 = jsonObj.map((o) => {
 
      const split_string = o.pic.split(",")
      // const split_string = [{"name":"abc"}];
     return(
- Object.assign({}, jsonObj,uploadBy, { pic: split_string })
+ Object.assign({}, jsonObj,uploadBy, { pic: split_string,Item_Full_Code:o.Item_Full_Code })
     );
  });
 
-
- 
 vendorStockModel.insertMany(csvValue1,(err,data)=>{  
 if(err){  
 console.log(err);  
